@@ -1,59 +1,30 @@
 <?php 
-class User {
-    public $name;
-    public $login;
-    public $password;
+require_once "./autoloader.php";
 
-    public function __construct($name, $login, $password)
-    {
-        $this->name = $name;
-        $this->login = $login;
-        $this->password = $password;
-    }
-
-    public function showInfo() {
-        echo "Name: " . $this->name . "<br>";
-        echo "Login: " . $this->login . "<br>";
-        echo "Password: " . $this->password . "<br>";
-    }
-    public function __destruct()
-    {
-        echo "User " . $this->login . " was deleted.<br>";
-    }
-}
-
-class SuperUser extends User {
-    public $role;
-    public function __construct($name, $login, $password, $role)
-    {
-        parent::__construct($name, $login, $password);
-        $this->role = $role;
-    }
-
-    public function showInfo()
-    {
-        parent::showInfo();
-        echo "Role: " . $this->role . "<br>";
-    }
-}
+spl_autoload_register("myAutoloader");
 
 echo "🔽 REGULAR USER 🔽 <br>";
 $user1 = new User("John Doe", "johndoe", "password1");
 $user1->showInfo();
-unset($user1);
+
 echo "<br>";
 $user2 = new User("Jane Smith", "janesmith", "password2");
 $user2->showInfo();
-unset($user2);
+
 echo "<br>";
 $user3 = new User("Bob Johnson", "bobjohnson", "password3");
 $user3->showInfo();
-unset($user3);
+
 echo "<br>";
 echo "🔽 SUPER USER 🔽 <br>";
 $superUser = new SuperUser("John Smith", "johnsmith", "superpassword", "admin");
 $superUser->showInfo();
-unset($superUser);
+print_r($superUser->getInfo());
+echo "<br><br>";
+echo $superUser->auth("johnsmith", "superpassword");
+echo "<br><br>";
+echo "👨 Всего обычных пользователей: " . User::$userCount . "<br>🥷Всего супер-пользователей: " . SuperUser::$superUserCount;
+echo "<br><br>"
 ?>
 
 <!DOCTYPE html>
